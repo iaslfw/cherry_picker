@@ -6,5 +6,12 @@ readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
     "beautifulsoup4>=4.14.3",
+    "dotenv>=0.9.9",
     "requests>=2.32.5",
+    "rich>=14.3.3",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.6",
 ]
