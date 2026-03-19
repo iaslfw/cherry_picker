@@ -1,0 +1,39 @@
+name: Tests and lints with uv, pytest and ruff
+
+on:
+    ["pull_request"]
+
+jobs:
+    test:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                python-version: [">=3.13"]
+        steps:
+          -  uses: actions/checkout@v5
+
+          -  name: Install python v${{matrix.python-version}} and uv
+             uses: astral-sh/setup-uv@v7
+             with:
+                 python-version: ${{ matrix.python-version }}
+
+          -  name: Test with python ${{ matrix.python-version }}
+             run: uv run -m pytest
+
+    lint:
+        needs: test
+        runs-on: ubuntu-latest
+
+        steps:
+            - uses: actions/checkout@v5
+            
+            - name: Install python v${{matrix.python-version}} and uv
+              uses: astral-sh/setup-uv@v7
+              with:
+                  python-version: ${{ matrix.python-version }}
+            
+            - name: Ruff lint
+              run:  ruff check . --output-format=github
+            
+            - name: Ruff check formatting
+              run:  ruff format . --check --diff

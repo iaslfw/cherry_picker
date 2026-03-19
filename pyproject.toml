@@ -1,7 +1,7 @@
 [project]
-name = "uni-looter"
+name = "CherryPicker"
 version = "0.1.0"
-description = "Add your description here"
+description = "A automated companion for harvesting university course materials with precision and speed"
 readme = "README.md"
 requires-python = ">=3.13"
 dependencies = [
@@ -9,9 +9,11 @@ dependencies = [
     "dotenv>=0.9.9",
     "requests>=2.32.5",
     "rich>=14.3.3",
+    "selenium>=4.41.0",
 ]
 
 [dependency-groups]
 dev = [
+    "pytest>=9.0.2",
     "ruff>=0.15.6",
 ]

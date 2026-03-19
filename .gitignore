@@ -11,7 +11,9 @@ src/files/downloads/*
 
 # Virtual environments
 .venv
+.pytest_cache
 
 # files
+.DS_Store
 .env
-.env
+*.csv
