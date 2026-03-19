@@ -77,41 +77,9 @@
 
    To maximize both compatibility and performance, this project uses a **Hybrid Scraping Workflow**. Selenium is used to bypass the authentication of the platform, while the combination of BeautifulSoup and Requests handles the scraping and streaming of the actual files onto the hard-drive.
 
-   ```mermaid
-   ---
-   config:
-      theme: base
-      themeVariables:
-         primaryColor: "transparent"
-         primaryTextColor: "#000000"
-         primaryBorderColor: "#000000"
-         actorBorder: "#000000"
-         actorBkg: "transparent"
-         lineColor: "#000000"
-         noteBkgColor: "#ffffff"
-         noteTextColor: "#000000"
-      look: handDrawn
-   
-   ---
-   sequenceDiagram
-         participant Selenium
-         participant Session
-         participant Tracker
-         participant BeautifulSoup
-         participant Hard-Drive
+   ![sequence-diagramm of cherry-picker](src/files/images/cherry_picker-sequence.png)
 
-         Selenium->>Selenium: Login/Authenticate
-         Selenium->>Session: Transfer Cookies/UA
-         Session->>Session: fetch course page
-         Session->>BeautifulSoup: pass HTML content
-         BeautifulSoup->>BeautifulSoup: Extract links and data
-         BeautifulSoup->>Session: Pass data to session-object
-         Session->>Session: Stream file(s)
-         Session->>Hard-Drive: Write File-Binary
-         Session->>Tracker: Write metadata in Log
-         Tracker->>Hard-Drive: Log to CSV
-         
-   ```
+
    First, a **Selenium WebDriver** instance is created to handle the complex login flow. Once the session is authenticated, the credentials (`cookies` and `User-Agent`) are transferred to a lightweight **Requests Session** for high-performance interaction. This session fetches each course page, which **BeautifulSoup** then parses to identify and extract specific resource links. Before the download starts, the **Tracker** compares each link against all entries of the local CSV-file (`download_history.csv`). If the file is new, the authenticated session streams it directly via **Streaming Requests** to the hard-drive and stores the file data inside the `download_history.csv`-file. If the file has been already downloaded the provided resource-link will be skipped.
 
    ---
@@ -159,9 +127,8 @@
    ## 5. Contributing
 
    Currently this project only works with moodle-plattform from the DHBW (Karlsruhe). But in order to make this project usable for everybody feel free to **clone** and **participate** in this project. 
-   You can find more informations about how to participate insinde the CONTRIBUTION.md.
+   You can find more informations about how to participate in the [Contribution guidelines](./CONTRIBUTING.md) 
 
-   
 
    ## 6. Development
 
@@ -175,6 +142,11 @@
    ```bash
    uv run -m pytest
    ```
+
+   ## 3. Caveats
+
+   Althought the test-coverage is pretty good, there are some caveats you have to watch out for when using this:
+   5. You need to be logged out from all active sessions
 
    <p align="center">Made for more efficient studying 🍒</p>
 
