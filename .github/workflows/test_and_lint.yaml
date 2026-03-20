@@ -33,7 +33,7 @@ jobs:
                   python-version: ${{ matrix.python-version }}
             
             - name: Ruff lint
-              run:  ruff check . --output-format=github
+              run:  uv run ruff check . --output-format=github
             
             - name: Ruff check formatting
-              run:  ruff format . --check --diff
+              run:  uv run ruff format . --check --diff
