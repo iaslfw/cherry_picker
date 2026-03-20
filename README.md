@@ -43,23 +43,7 @@
 
    ## 1. Overview
 
-   Some people will call it "web-scraper". I call it **"a personal high-performance Python automation tool"** designed to "cherry-pick" (download) resources from my university portal. Killing the tedious process of manually checking for new lecture slides, assignments, and readings across multiple course pages.
-
-   ### Idea
-   
-   By employing a **Hybrid Scraping Architecture**, UniLooter combines the best of two worlds:
-   - **Selenium (Headless):** Handles complex SSO/Moodle authentication flows.
-   - **Requests & BeautifulSoup4:** Executes high-speed scraping and multi-threaded-like downloads once the session is established.
-  
-   With that idea in my mind, I wanted to create
-
-   ### Key Features
-   - **Automated Login:** Handles credentials and session metadata extraction via Selenium.
-   - **Smart Organization:** Automatically sorts files into folders named after your courses.
-   - **Duplicate Prevention:** Tracks download history in a CSV file to avoid redundant downloads.
-   - **Filename Sanitization:** Automatically cleans up special characters (e.g., German Umlauts) and removes invalid symbols.
-   - **Rich CLI:** Provides beautiful progress bars and status updates using the `Rich` library.
-
+   Some people will call it *web-scraper*. I call it **"a personal high-performance Python automation tool"** designed to pick all the cherries (download resources) from my university portal. Killing the tedious process of manually checking for new lecture slides, assignments, and readings across multiple course pages.
 
    ### Motivation
 
@@ -70,16 +54,30 @@
    2.  **Cure my nerves:** The plattform is quite annoying. Like I already said it has bad UI an even more worse search system and everything is cluttered. So I want to spare my own nerves and my peace of mind. 
    3.  **Ensure Consistency:** Each file is always stored in a dedicated place. My system, my location. Always the same.
 
-   And so it will help you! 
+    ### Idea
+
+    Before tackling the actual implementation, the primary challenge was finding a reliable way to navigate the authentication layers of my university portals. After diving into different methologies and experimented with web-scraping I realized that, while Selenium (Headless) is indispensable for navigating the labyrinth of modern SSO and simple authentication flows, it can be overkill for bulk data retrieval. 
+    On the other hand, BeautifulSoup allows for lightning-fast extraction of the DOM-Tree but lacks the ability to interact with it—it cannot click buttons or handle asynchronous JavaScript events. Similarly, Requests enables high-speed, direct data transfers but cannot navigate JavaScript-heavy login walls on its own.
+
+    So I wanted to combine those into a **Hybrid Scraping Architecture**: using the power of a headless browser to establish a secure session, then handing that session over to Requests and BeautifulSoup4 for high-speed, multi-threaded-like downloads and efficient scraping without the overhead of a full browser engine.
+
+    To make the tool truly "smart" rather than just a simple downloader, I envisioned several key quality-of-life features:
+    - Intelligent Automation: From handling session metadata extraction to automatically organizing files into course-specific folders.
+
+    - Data Integrity: Implementing a CSV-based tracking system to prevent redundant downloads and ensuring cross-platform compatibility through robust filename sanitization (cleaning up those pesky German Umlauts and invalid symbols).
+
+    - Experience: I didn't want a dry terminal script; I wanted a rich, visual experience. By integrating the Rich library, I aimed to provide beautiful progress bars and real-time status updates, making the harbesting process as satisfying as it is efficient. 
+    
+    - Updates: Last but not least, I thought about a possibility to notify myself once the files have been downloaded. For that I planned to use th pushover-notification service which I'm already using in combination with my PiHole. 
 
 
    ### How it works
 
-   To maximize both compatibility and performance, this project uses a **Hybrid Scraping Workflow**. Selenium is used to bypass the authentication of the platform, while the combination of BeautifulSoup and Requests handles the scraping and streaming of the actual files onto the hard-drive.
+   Like mentioned in the section above, this project uses a **Hybrid Scraping Workflow** to maximize both compatibility and performance. Selenium is used to bypass the authentication of the platform, while the combination of BeautifulSoup and Requests handles the scraping and streaming of the actual files onto the hard-drive (currently).
 
    ![sequence-diagramm of cherry-picker](src/files/images/cherry_picker-sequence.png)
 
-
+   
    First, a **Selenium WebDriver** instance is created to handle the complex login flow. Once the session is authenticated, the credentials (`cookies` and `User-Agent`) are transferred to a lightweight **Requests Session** for high-performance interaction. This session fetches each course page, which **BeautifulSoup** then parses to identify and extract specific resource links. Before the download starts, the **Tracker** compares each link against all entries of the local CSV-file (`download_history.csv`). If the file is new, the authenticated session streams it directly via **Streaming Requests** to the hard-drive and stores the file data inside the `download_history.csv`-file. If the file has been already downloaded the provided resource-link will be skipped.
    Last but not least (not shown in diagram) a summary via the pushover service is sent.
 
@@ -124,7 +122,7 @@
         {
           "id": 12345,
           "name": "CourseName"
-        }
+        },
         {
           "id": 67890,
           "name": "CourseName"
@@ -132,7 +130,7 @@
       ]
    ```
 
-   ## 5. Development
+   ### Development
 
    **Linting & Formatting:**
    ```bash
@@ -152,7 +150,9 @@
    ## 4. Caveats
 
    Althought the test-coverage is pretty good, there are some caveats you have to watch out for when using this:
-   5. You need to be logged out from all active sessions
+
+   - You need to be logged out from all active sessions
+   - Currently it's just working for the Moodle-Portal of the DHBW Karlsruhe
 
    <p align="center">Made for more efficient studying 🍒</p>
 
