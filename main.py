@@ -1,8 +1,10 @@
 # Licensed under the MIT License.
 # Copyright (c) 2026 Sebastian Wolf (iaslfw)
 
+from src.configs.notifications.pushover import PushoverConfig
 from src.configs.settings import Settings
 from src.configs.printer import ConsolePrinter
+from src.configs.custom_types import CourseSummary
 from src.scraper.tracker import init_log
 from src.scraper.download_files import download_all_files
 from src.scraper.site_scraper import (
@@ -13,35 +15,42 @@ from src.scraper.site_scraper import (
 
 def main():
     printer = ConsolePrinter()
+    pushover = PushoverConfig()
+    scrapping_summary: list[CourseSummary] = []
 
     try:
         Settings.validate()
-        init_log()
         printer.print_banner()
+        init_log()
 
         session, driver = create_authenticated_session(
-            Settings.LOGIN_URL, Settings.USER_NAME, Settings.PASSWORD
+            str(Settings.LOGIN_URL),
+            str(Settings.USER_NAME),
+            str(Settings.PASSWORD),
         )
 
-        courses = Settings.get_courses_from_json()
+        course_list = Settings.get_courses_from_json()
 
-        for course in courses:
-            course_id, course_name = course["id"], course["name"]  # type: ignore
+        for course in course_list:
+            course_id = int(course["id"])
+            course_name = str(course["name"])
 
             printer.log(
                 msg=f"[bold cyan]Processing course:[/] [yellow]{course_name}[/]"
             )
 
             url = f"{Settings.LOGIN_URL}/course/view.php?id={course_id}"
-            scraped_data: tuple[list[str], str] = scrape_course_page(
-                driver, session, url
+            links_found: list[str] = scrape_course_page(driver, session, url)
+
+            scraped_data = download_all_files(
+                printer,
+                session,
+                course_name,
+                links_found,
             )
+            scrapping_summary.append(scraped_data)
 
-            links = scraped_data[0]
-            title = scraped_data[1]
-
-            download_all_files(printer, session, title, str(course_name), links)  # type: ignore
-
+        pushover.send_notification(scrapping_summary)
         session.close()
         driver.quit()
 
