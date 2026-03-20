@@ -34,7 +34,7 @@
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
    </p>
 
-   <h1 align="center">CherryPicket</h1>
+   <h1 align="center">CherryPicker</h1>
    <p align="center">
      <em>A automated companion for harvesting university course materials with precision and speed</em>
    </p>
