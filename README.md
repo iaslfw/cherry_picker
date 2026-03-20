@@ -71,89 +71,89 @@
  - Updates: Last but not least, I thought about a possibility to notify myself once the files have been downloaded. For that I planned to use th pushover-notification service which I'm already using in combination with my PiHole. 
 
 
-   ### How it works
+### How it works
 
-   Like mentioned in the section above, this project uses a **Hybrid Scraping Workflow** to maximize both compatibility and performance. Selenium is used to bypass the authentication of the platform, while the combination of BeautifulSoup and Requests handles the scraping and streaming of the actual files onto the hard-drive (currently).
+Like mentioned in the section above, this project uses a **Hybrid Scraping Workflow** to maximize both compatibility and performance. Selenium is used to bypass the authentication of the platform, while the combination of BeautifulSoup and Requests handles the scraping and streaming of the actual files onto the hard-drive (currently).
 
-   ![sequence-diagramm of cherry-picker](src/files/images/cherry_picker-sequence.png)
-
-   
-   First, a **Selenium WebDriver** instance is created to handle the complex login flow. Once the session is authenticated, the credentials (`cookies` and `User-Agent`) are transferred to a lightweight **Requests Session** for high-performance interaction. This session fetches each course page, which **BeautifulSoup** then parses to identify and extract specific resource links. Before the download starts, the **Tracker** compares each link against all entries of the local CSV-file (`download_history.csv`). If the file is new, the authenticated session streams it directly via **Streaming Requests** to the hard-drive and stores the file data inside the `download_history.csv`-file. If the file has been already downloaded the provided resource-link will be skipped.
-   Last but not least (not shown in diagram) a summary via the pushover service is sent.
-
-   ---
-
-   ## 2. Getting Started
-
-   ### Prerequisites
-   - **Python 3.13+** 
-   - **Google Chrome** & **ChromeDriver** (for Selenium's headless operation)
-   - **UV** (recommended dependency manager)
-
-   ### Installation
-
-   1.  **Clone the repository:**
-       ```
-       git clone https://github.com/iaslfw/cherry_picker.git
-       cd cherry_picker
-       ```
+![sequence-diagramm of cherry-picker](src/files/images/cherry_picker-sequence.png)
 
 
-   2.  **Install dependencies:**
-       ```
-       uv sync
-       ```
+First, a **Selenium WebDriver** instance is created to handle the complex login flow. Once the session is authenticated, the credentials (`cookies` and `User-Agent`) are transferred to a lightweight **Requests Session** for high-performance interaction. This session fetches each course page, which **BeautifulSoup** then parses to identify and extract specific resource links. Before the download starts, the **Tracker** compares each link against all entries of the local CSV-file (`download_history.csv`). If the file is new, the authenticated session streams it directly via **Streaming Requests** to the hard-drive and stores the file data inside the `download_history.csv`-file. If the file has been already downloaded the provided resource-link will be skipped.
+Last but not least (not shown in diagram) a summary via the pushover service is sent.
 
-   ### Configuration
+---
 
-   3.  **Set Environment Variables:** Create a `.env` file in the root directory:
-         ```
-         LOGIN_URL=https://your-university-moodle.com
-         USER_NAME=your_username
-         PASSWORD=your_password
+## 2. Getting Started
 
-         PUSHOVER_TOKEN=abc123...
-         PUSHOVER_USER_KEY=xyz987...
-         ```
+### Prerequisites
+- **Python 3.13+** 
+- **Google Chrome** & **ChromeDriver** (for Selenium's headless operation)
+- **UV** (recommended dependency manager)
 
-   4.  **Course List:** Define the courses you want to track in `src/files/courses.json`. Each course idea is visible in the URL as the last parameter:
-   ```json
-      [
-        {
-          "id": 12345,
-          "name": "CourseName"
-        },
-        {
-          "id": 67890,
-          "name": "CourseName"
-        }
-      ]
+### Installation
+
+1.  **Clone the repository:**
+ ```
+ git clone https://github.com/iaslfw/cherry_picker.git
+ cd cherry_picker
+ ```
+
+
+2.  **Install dependencies:**
+ ```
+ uv sync
+ ```
+
+### Configuration
+
+3.  **Set Environment Variables:** Create a `.env` file in the root directory:
+   ```
+   LOGIN_URL=https://your-university-moodle.com
+   USER_NAME=your_username
+   PASSWORD=your_password
+
+   PUSHOVER_TOKEN=abc123...
+   PUSHOVER_USER_KEY=xyz987...
    ```
 
-   ### Development
+4.  **Course List:** Define the courses you want to track in `src/files/courses.json`. Each course idea is visible in the URL as the last parameter:
+```json
+[
+  {
+    "id": 12345,
+    "name": "CourseName"
+  },
+  {
+    "id": 67890,
+    "name": "CourseName"
+  }
+]
+```
 
-   **Linting & Formatting:**
-   ```bash
-   uv run ruff check .   # Check for errors
-   uv run ruff format .  # Format code
-   ```
+### Development
 
-   **Testing:**
-   ```bash
-   uv run -m pytest
-   ```
+**Linting & Formatting:**
+```bash
+uv run ruff check .   # Check for errors
+uv run ruff format .  # Format code
+```
 
-   ## 3. Contributing
+**Testing:**
+```bash
+uv run -m pytest
+```
 
-   Currently this project only works with moodle-plattform from the DHBW (Karlsruhe). But in order to make this project usable for everybody feel free to **clone** and **participate** in this project. You can find more informations about how to participate in the [Contribution guidelines](./CONTRIBUTING.md) 
+## 3. Contributing
 
-   ## 4. Caveats
+Currently this project only works with moodle-plattform from the DHBW (Karlsruhe). But in order to make this project usable for everybody feel free to **clone** and **participate** in this project. You can find more informations about how to participate in the [Contribution guidelines](./CONTRIBUTING.md) 
 
-   Althought the test-coverage is pretty good, there are some caveats you have to watch out for when using this:
+## 4. Caveats
 
-   - You need to be logged out from all active sessions
-   - Currently it's just working for the Moodle-Portal of the DHBW Karlsruhe
+Althought the test-coverage is pretty good, there are some caveats you have to watch out for when using this:
 
-   <p align="center">Made for more efficient studying 🍒</p>
+- You need to be logged out from all active sessions
+- Currently it's just working for the Moodle-Portal of the DHBW Karlsruhe
+
+<p align="center">Made for more efficient studying 🍒</p>
 
 
