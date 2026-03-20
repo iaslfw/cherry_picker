@@ -36,7 +36,7 @@
 
    <h1 align="center">CherryPicker</h1>
    <p align="center">
-     <em>A automated companion for harvesting university course materials with precision and speed</em>
+     <em>An automated companion for harvesting university course materials with precision and speed</em>
    </p>
 
    ---
