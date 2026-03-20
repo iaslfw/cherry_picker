@@ -54,21 +54,21 @@
    2.  **Cure my nerves:** The plattform is quite annoying. Like I already said it has bad UI an even more worse search system and everything is cluttered. So I want to spare my own nerves and my peace of mind. 
    3.  **Ensure Consistency:** Each file is always stored in a dedicated place. My system, my location. Always the same.
 
-    ### Idea
+ ### Idea
 
-    Before tackling the actual implementation, the primary challenge was finding a reliable way to navigate the authentication layers of my university portals. After diving into different methologies and experimented with web-scraping I realized that, while Selenium (Headless) is indispensable for navigating the labyrinth of modern SSO and simple authentication flows, it can be overkill for bulk data retrieval. 
-    On the other hand, BeautifulSoup allows for lightning-fast extraction of the DOM-Tree but lacks the ability to interact with it—it cannot click buttons or handle asynchronous JavaScript events. Similarly, Requests enables high-speed, direct data transfers but cannot navigate JavaScript-heavy login walls on its own.
+ Before tackling the actual implementation, the primary challenge was finding a reliable way to navigate the authentication layers of my university portals. After diving into different methologies and experimented with web-scraping I realized that, while Selenium (Headless) is indispensable for navigating the labyrinth of modern SSO and simple authentication flows, it can be overkill for bulk data retrieval. 
+ On the other hand, BeautifulSoup allows for lightning-fast extraction of the DOM-Tree but lacks the ability to interact with it—it cannot click buttons or handle asynchronous JavaScript events. Similarly, Requests enables high-speed, direct data transfers but cannot navigate JavaScript-heavy login walls on its own.
 
-    So I wanted to combine those into a **Hybrid Scraping Architecture**: using the power of a headless browser to establish a secure session, then handing that session over to Requests and BeautifulSoup4 for high-speed, multi-threaded-like downloads and efficient scraping without the overhead of a full browser engine.
+ So I wanted to combine those into a **Hybrid Scraping Architecture**: using the power of a headless browser to establish a secure session, then handing that session over to Requests and BeautifulSoup4 for high-speed, multi-threaded-like downloads and efficient scraping without the overhead of a full browser engine.
 
-    To make the tool truly "smart" rather than just a simple downloader, I envisioned several key quality-of-life features:
-    - Intelligent Automation: From handling session metadata extraction to automatically organizing files into course-specific folders.
+ To make the tool truly "smart" rather than just a simple downloader, I envisioned several key quality-of-life features:
+ - Intelligent Automation: From handling session metadata extraction to automatically organizing files into course-specific folders.
 
-    - Data Integrity: Implementing a CSV-based tracking system to prevent redundant downloads and ensuring cross-platform compatibility through robust filename sanitization (cleaning up those pesky German Umlauts and invalid symbols).
+ - Data Integrity: Implementing a CSV-based tracking system to prevent redundant downloads and ensuring cross-platform compatibility through robust filename sanitization (cleaning up those pesky German Umlauts and invalid symbols).
 
-    - Experience: I didn't want a dry terminal script; I wanted a rich, visual experience. By integrating the Rich library, I aimed to provide beautiful progress bars and real-time status updates, making the harbesting process as satisfying as it is efficient. 
-    
-    - Updates: Last but not least, I thought about a possibility to notify myself once the files have been downloaded. For that I planned to use th pushover-notification service which I'm already using in combination with my PiHole. 
+ - Experience: I didn't want a dry terminal script; I wanted a rich, visual experience. By integrating the Rich library, I aimed to provide beautiful progress bars and real-time status updates, making the harbesting process as satisfying as it is efficient. 
+ 
+ - Updates: Last but not least, I thought about a possibility to notify myself once the files have been downloaded. For that I planned to use th pushover-notification service which I'm already using in combination with my PiHole. 
 
 
    ### How it works
