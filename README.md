@@ -150,7 +150,9 @@
    ## 4. Caveats
 
    Althought the test-coverage is pretty good, there are some caveats you have to watch out for when using this:
-   5. You need to be logged out from all active sessions
+
+   - You need to be logged out from all active sessions
+   - Currently it's just working for the Moodle-Portal of the DHBW Karlsruhe
 
    <p align="center">Made for more efficient studying 🍒</p>
 
