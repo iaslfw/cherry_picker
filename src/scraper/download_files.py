@@ -6,6 +6,7 @@ from src.scraper.tracker import is_already_downloaded, log_download
 from src.configs.printer import ConsolePrinter
 from typing import Optional
 from src.configs.settings import Settings
+from src.configs.custom_types import CourseSummary
 
 course_name = ""
 
@@ -13,10 +14,9 @@ course_name = ""
 def download_all_files(
     printer: ConsolePrinter,
     session: requests.Session,
-    title: str,
     course_name: str,
     links: list[str],
-) -> None:
+) -> CourseSummary:
     """Download all files from the provided links.
 
     Args:
@@ -25,23 +25,37 @@ def download_all_files(
         title (str): Name of the course
         course_name (str): The name of the course for organizing downloaded files
         links (list[str]): List of file-URLs to download
+
+    Returns:
+        CourseSummary: A summary of the downloaded files for the course
     """
+
+    course_name = _sanitize_filename(course_name)
+    course_summary: CourseSummary = {
+        "course_name": course_name,
+        "files_downloaded": [],
+    }
 
     if len(links) == 0:
         printer.log(
             msg=f"[dim]No files available for course:[/] [yellow]{course_name}[/]"
         )
-        return
+        return course_summary
     else:
         for link in links:
-            if is_already_downloaded(title, link):
+            if is_already_downloaded(course_name, link):
                 printer.log(msg=f"[dim]Already downloaded: {link}. Skipping")
                 continue
             else:
                 printer.start_progress()
+
                 file_name = _download_file(printer, link, session, course_name)
-                log_download(title, file_name, link)
+                course_summary["files_downloaded"].append(file_name)  # type: ignore
+                log_download(course_name, file_name, link)
+
                 printer.stop_progress()
+
+        return course_summary
 
 
 # Helper functions for download_file
@@ -107,7 +121,7 @@ def _sanitize_filename(filename: str) -> str:
     filename = filename.replace(" ", "_")
     filename = re.sub(r"[^\w\-_\.]", "", filename)
 
-    return filename
+    return filename.lower()
 
 
 def _extract_metadata(

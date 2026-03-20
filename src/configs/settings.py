@@ -14,12 +14,14 @@ class Settings:
     LOG_FILE = DATA_DIR / "download_history.csv"
     COURSES_FILE = DATA_DIR / "courses.json"
 
-    LOGIN_URL: str = os.getenv("LOGIN_URL")  # type: ignore
-    USER_NAME: str = os.getenv("USER_NAME")  # type: ignore
-    PASSWORD: str = os.getenv("PASSWORD")  # type: ignore
+    LOGIN_URL: str | None = os.getenv("LOGIN_URL")
+    USER_NAME: str | None = os.getenv("USER_NAME")
+    PASSWORD: str | None = os.getenv("PASSWORD")
+    PUSHOVER_TOKEN: str | None = os.getenv("PUSHOVER_TOKEN")
+    PUSHOVER_USER_KEY: str | None = os.getenv("PUSHOVER_USER_KEY")
 
     @classmethod
-    def get_courses_from_json(cls) -> List[tuple[int, str]]:
+    def get_courses_from_json(cls) -> List[dict[str, str | int]]:
         """Load course list from JSON file."""
 
         if not cls.COURSES_FILE.exists():
@@ -39,7 +41,10 @@ class Settings:
             missing.append("USER_NAME")  # type: ignore
         if not cls.PASSWORD:
             missing.append("PASSWORD")  # type: ignore
-
+        if not cls.PUSHOVER_TOKEN:
+            missing.append("PUSHOVER_TOKEN")  # type: ignore
+        if not cls.PUSHOVER_USER_KEY:
+            missing.append("PUSHOVER_USER_KEY")  # type: ignore
         if missing:
             raise ValueError(
                 f"Missing required environment variables: {', '.join(missing)}"  # type: ignore

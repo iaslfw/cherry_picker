@@ -57,7 +57,7 @@ def create_authenticated_session(
 
 def scrape_course_page(
     driver: WebDriver, session: requests.Session, url: str
-) -> tuple[list[str], str]:
+) -> list[str]:
     """Scrape current page for downloadable links containing ressources.
 
     Args:
@@ -66,7 +66,7 @@ def scrape_course_page(
         url (str): The URL of the course page to scrape
 
     Returns:
-        tuple[list[str], str]: A list of downloadable links and the course title
+        list[str]: A list of downloadable links
     """
 
     printer.log(msg=f"[dim]Scraping:[/] [bold magenta]{url}")
@@ -77,17 +77,16 @@ def scrape_course_page(
         response.raise_for_status()
 
         soup = BeautifulSoup(response.content, "html.parser")
-        page_title = soup.title.text if soup.title else "Untitled Course"
         links = _extract_links(soup)
 
-        return links, page_title
+        return links
 
     except requests.exceptions.RequestException as e:
         printer.log(f"[bold red]Failed to retrieve the course page:[/] {e}")
-        return [], ""
+        return []
     except Exception as e:
         printer.log(f"[bold red]An error occurred while scraping:[/] {e}")
-        return [], ""
+        return []
 
 
 def _setup_driver() -> WebDriver:
