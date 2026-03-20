@@ -81,6 +81,7 @@
 
 
    First, a **Selenium WebDriver** instance is created to handle the complex login flow. Once the session is authenticated, the credentials (`cookies` and `User-Agent`) are transferred to a lightweight **Requests Session** for high-performance interaction. This session fetches each course page, which **BeautifulSoup** then parses to identify and extract specific resource links. Before the download starts, the **Tracker** compares each link against all entries of the local CSV-file (`download_history.csv`). If the file is new, the authenticated session streams it directly via **Streaming Requests** to the hard-drive and stores the file data inside the `download_history.csv`-file. If the file has been already downloaded the provided resource-link will be skipped.
+   Last but not least (not shown in diagram) a summary via the pushover service is sent.
 
    ---
 
@@ -94,43 +95,44 @@
    ### Installation
 
    1.  **Clone the repository:**
-      ```bash
-      git clone https://github.com/your-username/uni-looter.git
-      cd uni-looter
-      ```
+       ```
+       git clone https://github.com/iaslfw/cherry_picker.git
+       cd cherry_picker
+       ```
+
 
    2.  **Install dependencies:**
-      ``` 
-      uv sync
-      ```
+       ```
+       uv sync
+       ```
 
    ### Configuration
 
-   3.  **Environment Variables:** Create a `.env` file in the root directory:
-      ```env
-      LOGIN_URL=https://your-university-moodle.com
-      USER_NAME=your_username
-      PASSWORD=your_password
-      ```
+   3.  **Set Environment Variables:** Create a `.env` file in the root directory:
+         ```
+         LOGIN_URL=https://your-university-moodle.com
+         USER_NAME=your_username
+         PASSWORD=your_password
+
+         PUSHOVER_TOKEN=abc123...
+         PUSHOVER_USER_KEY=xyz987...
+         ```
 
    4.  **Course List:** Define the courses you want to track in `src/files/courses.json`. Each course idea is visible in the URL as the last parameter:
-      ```json 
+   ```json
       [
         {
-          "id": 12873,
-          "name": "Artificial Intelligence"
+          "id": 12345,
+          "name": "CourseName"
+        }
+        {
+          "id": 67890,
+          "name": "CourseName"
         }
       ]
-      ```
+   ```
 
-
-   ## 5. Contributing
-
-   Currently this project only works with moodle-plattform from the DHBW (Karlsruhe). But in order to make this project usable for everybody feel free to **clone** and **participate** in this project. 
-   You can find more informations about how to participate in the [Contribution guidelines](./CONTRIBUTING.md) 
-
-
-   ## 6. Development
+   ## 5. Development
 
    **Linting & Formatting:**
    ```bash
@@ -143,7 +145,11 @@
    uv run -m pytest
    ```
 
-   ## 3. Caveats
+   ## 3. Contributing
+
+   Currently this project only works with moodle-plattform from the DHBW (Karlsruhe). But in order to make this project usable for everybody feel free to **clone** and **participate** in this project. You can find more informations about how to participate in the [Contribution guidelines](./CONTRIBUTING.md) 
+
+   ## 4. Caveats
 
    Althought the test-coverage is pretty good, there are some caveats you have to watch out for when using this:
    5. You need to be logged out from all active sessions

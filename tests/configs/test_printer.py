@@ -89,7 +89,7 @@ def test_stop_progress_not_running(printer):
 def test_add_download_task(printer):
     """Test add_download_task adds a task to progress"""
 
-    printer.progress.add_task.return_value = 1  # TaskID is typically an int
+    printer.progress.add_task.return_value = 1
     task_id = printer.add_download_task("test.pdf", 100)
 
     printer.progress.add_task.assert_called_with(
