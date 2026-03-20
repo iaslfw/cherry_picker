@@ -34,7 +34,7 @@
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
    </p>
 
-   <h1 align="center">MoodleMiner</h1>
+   <h1 align="center">CherryPicket</h1>
    <p align="center">
      <em>A automated companion for harvesting university course materials with precision and speed</em>
    </p>
@@ -43,7 +43,7 @@
 
    ## 1. Overview
 
-   Some people will call it "web-scraper". I call it **"my personal high-performance Python automation tool"** designed to "cherry-pick" (download) resources from my university portal. Killing the tedious process of manually checking for new lecture slides, assignments, and readings across multiple course pages.
+   Some people will call it "web-scraper". I call it **"a personal high-performance Python automation tool"** designed to "cherry-pick" (download) resources from my university portal. Killing the tedious process of manually checking for new lecture slides, assignments, and readings across multiple course pages.
 
    ### Idea
    
