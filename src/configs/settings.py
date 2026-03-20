@@ -19,6 +19,7 @@ class Settings:
     PASSWORD: str | None = os.getenv("PASSWORD")
     PUSHOVER_TOKEN: str | None = os.getenv("PUSHOVER_TOKEN")
     PUSHOVER_USER_KEY: str | None = os.getenv("PUSHOVER_USER_KEY")
+    GOOGLE_CLIENT_ID: str | None = os.getenv("GOOGLE_CLIENT_ID")
 
     @classmethod
     def get_courses_from_json(cls) -> List[dict[str, str | int]]:
@@ -45,6 +46,8 @@ class Settings:
             missing.append("PUSHOVER_TOKEN")  # type: ignore
         if not cls.PUSHOVER_USER_KEY:
             missing.append("PUSHOVER_USER_KEY")  # type: ignore
+        if not cls.GOOGLE_CLIENT_ID:
+            missing.append("GOOGLE_CLIENT_ID")  # type: ignore
         if missing:
             raise ValueError(
                 f"Missing required environment variables: {', '.join(missing)}"  # type: ignore
