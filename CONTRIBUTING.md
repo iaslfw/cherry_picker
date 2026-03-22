@@ -6,7 +6,7 @@ Thank you for your interest in contributing to Cherry Picker! I welcome all cont
 
 ### Reporting Bugs
 
-If you've found a bug, please help us by [opening an issue](https://github.com/pythonics/cherry_picker/issues/new/choose).
+If you've found a bug, please help by [opening an issue](https://github.com/pythonics/cherry_picker/issues/new/choose).
 When reporting a bug, please use the **Bug report** template and provide:
 - A clear description of the bug.
 - Steps to reproduce the behavior.
@@ -15,7 +15,7 @@ When reporting a bug, please use the **Bug report** template and provide:
 
 ### Suggesting Enhancements
 
-We're always looking for ways to improve! To suggest a new feature or improvement, please [open an issue](https://github.com/pythonics/cherry_picker/issues/new/choose) using the **Feature request** template.
+I'm always looking for ways to improve! To suggest a new feature or improvement, please [open an issue](https://github.com/pythonics/cherry_picker/issues/new/choose) using the **Feature request** template.
 In your request, please include:
 - A description of the problem your suggestion addresses.
 - A clear explanation of the proposed solution.
@@ -25,10 +25,10 @@ In your request, please include:
 
 If you'd like to contribute code:
 1. Fork the repository.
-2. Create a new branch for your feature or bug fix.
+2. Create a new branch for your feature or bug fix `issue#id/<keyword>` where ID is the ID of the issue you're working on.
 3. Write clear, documented code that follows the project's style.
 4. Add tests for any new functionality or bug fixes.
-5. Ensure all tests pass by running `pytest`.
+5. Ensure all tests pass by running `uv run -m pytest`.
 6. Submit a Pull Request with a clear description of your changes.
 
 ## Development Setup
